@@ -25,5 +25,5 @@ def title(request, title):
         })
 
 
-def search(request, title):
-    
+def search(request):
+    return render(request, "encyclopedia/search.html")
