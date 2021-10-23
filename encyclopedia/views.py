@@ -26,4 +26,10 @@ def title(request, title):
 
 
 def search(request):
-    return render(request, "encyclopedia/search.html")
+    content = 'Nothing was searched.'
+    if 'q' in request.POST:
+        content = 'You searched something.'
+
+    return render(request, "encyclopedia/search.html", {
+        'content': content
+    })
