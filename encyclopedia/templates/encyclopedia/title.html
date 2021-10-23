@@ -1,0 +1,13 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block body %}
+
+    {% comment %} By default, the variable is safe and will be displayed as is
+    if the safe filter ("|safe") is added, the varialbe will be displayed as html content {% endcomment %}
+    {{ content|safe }}
+
+{% endblock %}
