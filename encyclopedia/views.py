@@ -26,10 +26,23 @@ def title(request, title):
 
 
 def search(request):
-    content = 'Nothing was searched.'
-    if 'q' in request.POST:
-        content = 'You searched something.'
+    # Get the value from the search bar
+    search = request.POST['q']
 
-    return render(request, "encyclopedia/search.html", {
-        'content': content
-    })
+    entry = util.get_entry(search)
+
+    # If the search is one of the entries
+    if entry:
+        return title(request, search)
+
+    # If the search doesn't match all the entries
+    else:
+        all_entries = util.list_entries()
+        similar_entries = []
+        for entry in all_entries:
+            if search.lower() in entry.lower(): # Make sure the cases match
+                similar_entries.append(entry)
+
+        return render(request, "encyclopedia/search.html", {
+            'entries': similar_entries
+        })

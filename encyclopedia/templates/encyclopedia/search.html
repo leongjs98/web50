@@ -6,6 +6,12 @@
 
 {% block body %}
 
-    {{ content }}
-
+    {% comment %} {{ content }} {% endcomment %}
+    <ul>
+        {% for entry in entries %}
+            <li>
+                <a href="/wiki/{{ entry }}">{{ entry }}</a>
+            </li>
+        {% endfor %}
+    </ul>
 {% endblock %}
