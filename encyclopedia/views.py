@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.contrib import messages
 from markdown2 import markdown
 
 from . import util
@@ -61,7 +62,15 @@ def edit(request, title):
 def submit(request):
     content = request.POST.get("new_content")
     entry_title = request.POST.get("title")
+    new_page = request.POST.get("new")
+
+    entries = util.list_entries()
     util.save_entry(entry_title, content)
+
+    if new_page == "True":
+        if entry_title in entries:
+            messages.info(request, f'The title, {entry_title} already exists.')
+            return new(request)
 
     # Remove empty lines from the md file
     with open(f'entries/{entry_title}.md', 'r') as entry_file:

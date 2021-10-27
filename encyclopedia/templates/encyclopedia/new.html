@@ -5,13 +5,23 @@
 {% endblock %}
 
 {% block body %}
-    Please create a new page in markdown syntax.
-    <br>
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                {% if message.tags %}
+                    <div class="{{ message.tags }}">Error: {{ message }}</div>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <div>Please create a new page in markdown syntax.</div>
     <form action="{% url 'encyclopedia:submit' %}" id="submit-entry" method="post">
         {% csrf_token %}
         <input type="text" name="title">
         <br>
         <textarea form="submit-entry" name="new_content"></textarea>
+        <br>
+        <input type="hidden" value="True" name="new">
         <input type="submit">
     </form>
 {% endblock %}
