@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.contrib import messages
 from markdown2 import markdown
+from random import choice
 
 from . import util
 
@@ -86,3 +87,10 @@ def submit(request):
 
 def new(request):
     return render(request, 'encyclopedia/new.html')
+
+
+def random(request):
+    entries = util.list_entries()
+    # Select a random entry from all entries via the "random" library
+    entry = choice(entries)
+    return title(request, entry)
