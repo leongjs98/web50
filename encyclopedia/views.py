@@ -66,12 +66,16 @@ def submit(request):
     new_page = request.POST.get("new")
 
     entries = util.list_entries()
-    util.save_entry(entry_title, content)
 
+    # If this is creating new page
     if new_page == "True":
-        if entry_title in entries:
-            messages.info(request, f'The title, {entry_title} already exists.')
-            return new(request)
+        # No same name entries (even with different case)
+        for entry in entries:
+            if entry_title.lower() == entry.lower():
+                messages.info(request, f'The entry, {entry_title} already exists.')
+                return new(request)
+    
+    util.save_entry(entry_title, content)
 
     # Remove empty lines from the md file
     with open(f'entries/{entry_title}.md', 'r') as entry_file:
