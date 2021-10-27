@@ -1,17 +1,17 @@
 {% extends "encyclopedia/layout.html" %}
 
 {% block title %}
-    Edit: {{ title }}
+    Create a New Page
 {% endblock %}
 
 {% block body %}
-    Please edit the {{ title }} file in markdown syntax.
+    Please create a new page in markdown syntax.
     <br>
     <form action="{% url 'encyclopedia:submit' %}" id="submit-entry" method="post">
         {% csrf_token %}
-        <textarea form="submit-entry" name="new_content">{{ content }}</textarea>
+        <input type="text" name="title">
         <br>
-        <input type="hidden" value="{{ title }}" name="title">
+        <textarea form="submit-entry" name="new_content"></textarea>
         <input type="submit">
     </form>
 {% endblock %}

@@ -46,3 +46,34 @@ def search(request):
         return render(request, "encyclopedia/search.html", {
             'entries': similar_entries
         })
+
+
+def edit(request, title):
+    content = util.get_entry(title)
+
+    return render(request, "encyclopedia/edit.html", {
+        "title": title,
+        "content": content
+    })
+
+
+# for edit only rn
+def submit(request):
+    content = request.POST.get("new_content")
+    entry_title = request.POST.get("title")
+    util.save_entry(entry_title, content)
+
+    # Remove empty lines from the md file
+    with open(f'entries/{entry_title}.md', 'r') as entry_file:
+        lines = entry_file.readlines()
+        
+    with open(f'entries/{entry_title}.md', 'w') as new_entry_file:
+        for line in lines:
+            if not line.isspace():  # Only rewrite the non-empty lines
+                new_entry_file.write(line)
+    
+    return title(request, entry_title)
+
+
+def new(request):
+    return render(request, 'encyclopedia/new.html')
